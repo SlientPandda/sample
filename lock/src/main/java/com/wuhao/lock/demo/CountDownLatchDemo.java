@@ -27,7 +27,6 @@ public class CountDownLatchDemo {
         }
         countDownLatch.await();
         System.out.println(Thread.currentThread().getName() + "\t关门走人");
-
     }
 
 
