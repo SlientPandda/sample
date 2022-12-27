@@ -5,6 +5,8 @@ import com.wuhao.aop.pojo.User;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,6 +16,7 @@ public class ExcelExporter {
 
 
     public static void export(List<User> users) {
+
         try {
             // 获取所有包含Excel注解的字段
             Field[] declaredFields = User.class.getDeclaredFields();
