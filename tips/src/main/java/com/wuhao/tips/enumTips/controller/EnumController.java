@@ -5,6 +5,8 @@ import com.wuhao.tips.enumTips.enums.*;
 import com.wuhao.tips.enumTips.param.CreateOrderParam;
 import com.wuhao.tips.enumTips.service.IPurchaseService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
