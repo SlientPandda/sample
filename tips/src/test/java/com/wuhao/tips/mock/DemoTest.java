@@ -63,16 +63,26 @@ class DemoTest {
     }
 
     @Test
-    void spyAdd(){
+    void spyAdd() {
         Mockito.when(spyDemo.add(1, 2)).thenReturn(10);
-        Assertions.assertEquals(3, spyDemo.add(1,2));
+        Assertions.assertEquals(3, spyDemo.add(1, 2));
 
         Mockito.when(spyDemo.add(1, 2)).thenThrow(new RuntimeException());
-        spyDemo.add(1,2);
+        spyDemo.add(1, 2);
 
         Mockito.when(spyDemo.add(1, 2)).thenCallRealMethod();
-        Assertions.assertEquals(2, spyDemo.add(1,2));
+        Assertions.assertEquals(2, spyDemo.add(1, 2));
 
+    }
+
+    @Test
+    void mock() {
+        try {
+            Mockito.when(mockDemo.add(1, 2)).thenCallRealMethod();
+            Assertions.assertEquals(3, mockDemo.add(1, 2));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
