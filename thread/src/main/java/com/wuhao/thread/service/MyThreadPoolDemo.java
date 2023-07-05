@@ -1,4 +1,4 @@
-package com.wuhao.lock.demo;/**
+package com.wuhao.thread.service;/**
  *
  */
 

@@ -17,12 +17,13 @@ import java.util.Properties;
  **/
 public class ProducerService {
 
+//    @KafkaListener(concurrency = "2")
     public void  produce(){
         Properties props = new Properties();
         props.put("arg 1", "value 1");
         props.put("arg 2", "value 2");
         try (Producer<String, String> producer = new KafkaProducer<String, String>(props)){
-            producer.send(new ProducerRecord<>(), )
+//            producer.send(new ProducerRecord<>(), )
 
         }
     }

@@ -4,6 +4,8 @@ package com.wuhao.tips.optional;/**
 
 import com.wuhao.tips.pojo.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,6 +31,13 @@ public class TestOptional {
         optionalUser.orElseThrow(() -> new RuntimeException("用户为空！"));
 
         optionalUser.map(User::getAge).filter(a -> a < 30).ifPresent(System.out::println);
+        //判断集合，需要先判断集合长度，否则直接get会越界
+        List<String> list = new ArrayList<>();
+        byte[] bytes = Optional.ofNullable(list)
+                .filter(item -> !item.isEmpty())
+                .map(item -> item.get(0))
+                .map(String::getBytes)
+                .orElse(null);
 
     }
 }
