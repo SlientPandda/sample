@@ -3,6 +3,7 @@ package com.wuhao.thread.service;/**
  */
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.*;
@@ -54,7 +55,16 @@ public class ThreadService {
         executor.shutdown();
     }
 
+    @Async("myThreadPool")
     public void start3(){
-
+        log.info(Thread.currentThread().getName() + "start3!");
     }
+
+    @Async("myThreadPool")
+    public void start4(){
+        log.info(Thread.currentThread().getName() + "start4!");
+    }
+
+
+
 }

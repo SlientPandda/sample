@@ -20,6 +20,7 @@ public class StartRunner implements CommandLineRunner {
     ThreadService threadService;
     @Override
     public void run(String... args){
-        threadService.start2();
+        threadService.start3();
+        threadService.start4();
     }
 }
