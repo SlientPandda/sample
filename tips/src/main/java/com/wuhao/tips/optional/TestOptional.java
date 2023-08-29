@@ -2,6 +2,7 @@ package com.wuhao.tips.optional;/**
  *
  */
 
+import com.wuhao.tips.pojo.AccessUser;
 import com.wuhao.tips.pojo.User;
 
 import java.util.ArrayList;
@@ -22,7 +23,9 @@ public class TestOptional {
 //        of为空会报错，ofnullable不会
         Optional<User> optionalUser = Optional.ofNullable(zhangsan);
 //        optional链式操作
-        Integer age = optionalUser.map(User::getAge).orElse(20);
+        AccessUser accessUser = new AccessUser("1", new ArrayList<>(), new User("zhangsan", 20, 1));
+        Integer age = Optional.ofNullable(accessUser).map(AccessUser::getUser).map(User::getAge).orElse(30);
+
 
 //        optional短路
 //        只要调用了orElse方法不管前面的容器是否有值，参数里的方法都会执行，所以应该采用orElseGet使用lambda表达式的方式不会执行参数中的表达式

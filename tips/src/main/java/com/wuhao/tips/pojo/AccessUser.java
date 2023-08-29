@@ -2,7 +2,9 @@ package com.wuhao.tips.pojo;/**
  *
  */
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
  *@Version 1.0
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccessUser {
     private String id;
     private List<User> userList;

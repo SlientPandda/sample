@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *@Date 2023/7/7 14:16
  *@Version 1.0
  **/
-@EnableAsync
+//@EnableAsync
 @Configuration
 public class MyThreadPoolConfig {
 
@@ -30,6 +30,8 @@ public class MyThreadPoolConfig {
                 new ArrayBlockingQueue<>(10),
                 new MyThreadFactory("mythreadpool"),
                 new ThreadPoolExecutor.AbortPolicy());
+//        executor.allowCoreThreadTimeOut();
+//        executor.allowsCoreThreadTimeOut();
         return executor;
     }
 
