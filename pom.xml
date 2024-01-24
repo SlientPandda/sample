@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>sample</name>
-    <description>sample</description>
+    <description>本仓库是代码示例仓库</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
