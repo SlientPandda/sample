@@ -22,7 +22,7 @@ public class TestOptional {
         //将可能为空的对象转换为optional对象
 //        of为空会报错，ofnullable不会
         Optional<User> optionalUser = Optional.ofNullable(zhangsan);
-//        optional链式操作
+//        optional链式操作，需要使用map，如果在map中多层get方法调用的话，也是会报空指针异常的，而多层map就不会。
         AccessUser accessUser = new AccessUser("1", new ArrayList<>(), new User("zhangsan", 20, 1));
         Integer age = Optional.ofNullable(accessUser).map(AccessUser::getUser).map(User::getAge).orElse(30);
 
