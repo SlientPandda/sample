@@ -2,6 +2,7 @@ package com.wuhao.lock.demo;/**
  *
  */
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
  *@Date 2023/7/20 17:38
  *@Version 1.0
  **/
+@Slf4j
 @Service
 public class CompleteFutureService {
 
@@ -65,7 +68,9 @@ public class CompleteFutureService {
         ).toArray(CompletableFuture[]::new);
 
 
-        CompletableFuture.allOf(completableFutures).get();
+        //CompletableFuture 的 get() 方法和 join() 方法都可以用于获取异步任务的结果，它们之间的主要区别在于异常处理和返回类型上。
+        //get()方法会阻塞当前线程直到所有任务都完成，并且可能抛出ExecutionException异常。在使用get()方法时，需要逐个处理每个CompletableFuture对象的结果。
+        CompletableFuture.allOf(completableFutures).join();
 
         for (CompletableFuture<List<String>> completableFuture : completableFutures) {
             System.out.println(completableFuture.get());
@@ -101,4 +106,28 @@ public class CompleteFutureService {
         System.out.println(collect);
     }
 
+
+    void asyncTask(){
+        List<String> imageList = new ArrayList<>()
+
+        //成功数、失败数
+        AtomicInteger successNum = new AtomicInteger();
+        AtomicInteger failNum = new AtomicInteger();
+
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        for (String image : imageList) {
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                try {
+//                    downloadImage(image); 下载图片
+                    successNum.incrementAndGet();
+                } catch (Exception e) {
+                    log.error("图片保存失败");
+                    failNum.incrementAndGet();
+                }
+            }, threadPool);
+            futures.add(future);
+        }
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+    }
 }
