@@ -1,5 +1,6 @@
 package com.wuhao.redis.config;
 
+import io.lettuce.core.ReadFrom;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import io.lettuce.core.resource.NettyCustomizer;
@@ -11,6 +12,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -50,5 +52,11 @@ public class RedisLettuceConfig {
                 DefaultClientResources.builder();
         builder.nettyCustomizer(nettyCustomizer);
         return builder.build();
+    }
+
+
+    @Bean
+    public LettuceClientConfigurationBuilderCustomizer clientConfigurationBuilderCustomizer(){
+        return clientConfigurationBuilder -> clientConfigurationBuilder.readFrom(ReadFrom.REPLICA_PREFERRED);
     }
 }
