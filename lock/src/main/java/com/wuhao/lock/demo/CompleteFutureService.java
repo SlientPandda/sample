@@ -108,7 +108,7 @@ public class CompleteFutureService {
 
 
     void asyncTask(){
-        List<String> imageList = new ArrayList<>()
+        List<String> imageList = new ArrayList<>();
 
         //成功数、失败数
         AtomicInteger successNum = new AtomicInteger();
@@ -129,5 +129,52 @@ public class CompleteFutureService {
         }
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+    }
+
+
+
+    public void sample(){
+        List<String> res = new ArrayList<>();
+        res.add("111");
+        res.add("222");
+        CompletableFuture<List<String>>[] completableFutures = res.stream().map(departmentId ->
+                CompletableFuture.supplyAsync(
+                                () -> {
+                                    int i = 1 / 0;
+                                    try {
+                                        TimeUnit.SECONDS.sleep(2);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                        // 如果直接抛出异常的话 此处的log.error不会被打印
+//                                        log.error("11111");
+//                                        throw new RuntimeException();
+                                    }
+                                    return Arrays.asList("1");
+                                })
+                        // 使用exceptionally处理异常 会进行捕获 同时对于每个CompletableFuture任务进行get时都会捕获到异常
+                        // （如果不加exceptionally处理 直接抛出异常 每个CompletableFuture任务也会捕获到异常 区别在于加了exceptionally处理 在CompletableFuture<Void> completableFutures1 get的时候不会抛出异常 而直接抛出异常则会在此处抛出异常）
+                        .exceptionally(ex -> {
+                            log.error("异步获取人员信息时报错", ex);
+                            return null;
+                        })
+        ).toArray(CompletableFuture[]::new);
+
+        CompletableFuture<Void> completableFutures1 = CompletableFuture.allOf(completableFutures);
+        try {
+            // CompletableFuture get时如果有异常会抛出，所以需要try catch 但是此处由于是组合的CompletableFuture数组类型 使用allof方法只会抛出一次异常
+            completableFutures1.get();
+        } catch (Exception e) {
+            log.error("33333");
+        }
+        System.out.println("sss");
+
+        Arrays.stream(completableFutures).flatMap(completableFuture -> {
+            try {
+                return completableFuture.get().stream();
+            } catch (Exception e) {
+                log.error("4444444444", e);
+            }
+            return null;
+        }).filter(userInfo -> !org.springframework.util.ObjectUtils.isEmpty(userInfo)).collect(Collectors.toList());
     }
 }
